@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { RootStoreContext } from "../context/RootStoreContext";
-import { RootStore } from "../store/RootStore";
+import RootStoreContext from "../context/RootStoreContext";
+import RootStore from "../store/RootStore";
 
-export const useStore = (): RootStore => {
+function useStore(): RootStore {
   const context = useContext(RootStoreContext);
 
   if (!context) {
@@ -10,4 +10,6 @@ export const useStore = (): RootStore => {
   }
 
   return context;
-};
+}
+
+export default useStore;

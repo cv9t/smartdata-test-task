@@ -7,8 +7,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { navigationItems } from "../../constants";
-import { Icon } from "../Icon";
+import { navigationItems } from "../constants";
+import Icon from "./Icon";
 
 function Navigation(): JSX.Element | null {
   const theme = useTheme();
@@ -25,8 +25,10 @@ function Navigation(): JSX.Element | null {
         </ListSubheader>
       }
       sx={{
-        flex: 1,
+        position: "fixed",
         maxWidth: 200,
+        width: "100%",
+        height: "100%",
         color: "info.contrastText",
         backgroundColor: "info.main",
       }}
@@ -47,4 +49,4 @@ function Navigation(): JSX.Element | null {
   );
 }
 
-export { Navigation };
+export default Navigation;

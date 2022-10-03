@@ -1,8 +1,9 @@
-import { RootStoreContext } from "../../context/RootStoreContext";
-import { RootStore } from "../../store/RootStore";
+import RootStoreContext from "../context/RootStoreContext";
+import RootStore from "../store/RootStore";
+import { ChildrenType } from "../types";
 
 interface RootStoreProviderProps {
-  children: JSX.Element[] | JSX.Element | null;
+  children: ChildrenType;
 }
 
 const rootStore = new RootStore();
@@ -17,4 +18,4 @@ function RootStoreProvider({
   );
 }
 
-export { RootStoreProvider };
+export default RootStoreProvider;

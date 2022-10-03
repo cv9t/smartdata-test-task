@@ -1,8 +1,9 @@
 import { NavigationItemType } from "../types";
 
 export enum ROUTES {
-  BASE = "/",
+  ROOT = "/",
   USERS = "users",
+  USER = ":userId",
 }
 
 export const navigationItems: NavigationItemType[] = [

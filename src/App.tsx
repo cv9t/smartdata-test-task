@@ -1,12 +1,17 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import { routes } from "./routes";
-import { ThemeProvider } from "./components/ThemeProvider";
+import route from "./routes";
+import ThemeProvider from "./components/ThemeProvider";
+import RootStoreProvider from "./components/RootStoreProvider";
 
 function App(): JSX.Element | null {
-  const routeElement = useRoutes([routes]);
+  const routeElement = useRoutes([route]);
 
-  return <ThemeProvider>{routeElement}</ThemeProvider>;
+  return (
+    <RootStoreProvider>
+      <ThemeProvider>{routeElement}</ThemeProvider>
+    </RootStoreProvider>
+  );
 }
 
-export { App };
+export default App;

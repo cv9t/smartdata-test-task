@@ -3,11 +3,12 @@ import {
   createTheme,
   CssBaseline,
 } from "@mui/material";
+import { ChildrenType } from "../types";
 
 const theme = createTheme();
 
 interface ThemeProviderProps {
-  children: JSX.Element[] | JSX.Element | null;
+  children: ChildrenType;
 }
 
 function ThemeProvider({ children }: ThemeProviderProps): JSX.Element | null {
@@ -19,4 +20,4 @@ function ThemeProvider({ children }: ThemeProviderProps): JSX.Element | null {
   );
 }
 
-export { ThemeProvider };
+export default ThemeProvider;

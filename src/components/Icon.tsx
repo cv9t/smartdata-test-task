@@ -1,5 +1,5 @@
-import * as Icons from "../../assets/icons";
-import { IconType, IconMapType } from "../../types";
+import * as Icons from "../assets/icons";
+import { IconType } from "../types";
 
 interface IconProps {
   type: IconType;
@@ -10,6 +10,8 @@ interface IconProps {
   sizeSquareIcon?: number | string;
   onClick?: () => void;
 }
+
+type IconMapType = { [key in IconType]: JSX.Element | null };
 
 function Icon({
   type,
@@ -35,4 +37,4 @@ function Icon({
   return iconMap[type];
 }
 
-export { Icon };
+export default Icon;
