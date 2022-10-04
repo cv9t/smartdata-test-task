@@ -6,7 +6,7 @@ import {
   CardActionArea,
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import User from "../models/User";
+import User from "../models/UserModel";
 
 interface UserViewProps {
   user: User;

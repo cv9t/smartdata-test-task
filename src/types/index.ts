@@ -26,4 +26,11 @@ export interface IComment {
   body: string;
 }
 
+export interface IPost {
+  id: string;
+  userId: string;
+  title: string;
+  body: string;
+}
+
 export type ChildrenType = JSX.Element[] | JSX.Element | null;

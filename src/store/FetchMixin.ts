@@ -1,38 +1,45 @@
 import { AxiosResponse } from "axios";
 import { observable, action, makeObservable } from "mobx";
-import PaginationMixin from "./PaginationMixin";
+import transformObjectKeys from "../helpers/transformObjectKeys";
 
 class FetchMixin {
-  pagination: PaginationMixin;
   @observable loading = false;
+  @observable error = false;
 
   constructor() {
     makeObservable(this);
-    this.pagination = new PaginationMixin();
   }
 
-  @action
-  setLoading(value: boolean) {
+  @action setLoading(value: boolean) {
     this.loading = value;
   }
 
+  @action setError(value: boolean) {
+    this.error = value;
+  }
+
   async fetchApi<T>(
-    method: () => Promise<AxiosResponse<T>>
-  ): Promise<T | null> {
+    method: () => Promise<AxiosResponse<T>>,
+    thenCallback?: (data: T) => void,
+    catchCallback?: () => void
+  ) {
     try {
+      this.setError(false);
       this.setLoading(true);
 
-      const response = await method();
+      const res = await method();
 
-      if (response.status !== 200) {
-        return null;
+      if (res.status !== 200) {
+        throw new Error();
       }
 
-      const numberOfPages = Number(response.headers["x-pagination-pages"]);
-      this.pagination.setNumberOfPages(numberOfPages);
-
-      return response.data;
+      const transformedData: T = transformObjectKeys(res.data);
+      console.log(transformedData);
+      thenCallback?.(transformedData);
+      return res;
     } catch {
+      catchCallback?.();
+      this.setError(true);
       return null;
     } finally {
       this.setLoading(false);

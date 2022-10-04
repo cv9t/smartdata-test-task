@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import PostService from "./services/PostService";
 import UserService from "./services/UserService";
 
 const defaultConfig: AxiosRequestConfig = {
@@ -6,15 +7,15 @@ const defaultConfig: AxiosRequestConfig = {
 };
 
 class Api {
-  axios: AxiosInstance;
-  userService: UserService;
+  client = axios.create(defaultConfig);
 
-  constructor(config: AxiosRequestConfig = defaultConfig) {
-    this.axios = axios.create(config);
-    this.userService = new UserService(this.axios);
+  userService: UserService;
+  postService: PostService;
+
+  constructor() {
+    this.userService = new UserService(this);
+    this.postService = new PostService(this);
   }
 }
 
-const api = new Api();
-
-export default api;
+export default Api;

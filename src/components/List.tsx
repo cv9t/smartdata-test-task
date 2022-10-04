@@ -6,12 +6,14 @@ export interface ListProps<T> {
   items: T[];
   renderItem: (item: T, index: number, array: T[]) => JSX.Element | null;
   gap?: number | CSSProperties["gap"];
+  emptyList?: JSX.Element | null;
 }
 
 function List<T>({
   items,
   renderItem,
   gap = 3,
+  emptyList,
 }: ListProps<T>): JSX.Element | null {
   return (
     <>
@@ -20,6 +22,7 @@ function List<T>({
           {items.map(renderItem)}
         </Box>
       )}
+      {items.length === 0 && emptyList && emptyList}
     </>
   );
 }

@@ -1,11 +1,7 @@
-import { AxiosInstance } from "axios";
+import Api from "../Api";
 
 class HTTPRequestService {
-  axios: AxiosInstance;
-
-  constructor(axios: AxiosInstance) {
-    this.axios = axios;
-  }
+  constructor(protected api: Api) {}
 }
 
 export default HTTPRequestService;

@@ -4,6 +4,8 @@ export enum ROUTES {
   ROOT = "/",
   USERS = "users",
   USER = ":userId",
+  POSTS = "posts",
+  POST = ":postId",
 }
 
 export const navigationItems: NavigationItemType[] = [

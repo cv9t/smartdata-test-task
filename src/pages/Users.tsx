@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
 import PageContainer from "../components/PageContainer";
 import PaginationList from "../components/PaginationList";
@@ -10,10 +10,18 @@ import { ROUTES } from "../constants";
 function Users(): JSX.Element | null {
   const navigate = useNavigate();
 
+  const [numberOfPages, setNumberOfPages] = useState(0);
+
   const { userStore } = useStore();
 
   useEffect(() => {
-    userStore.fetchUsers();
+    (async () => {
+      const res = await userStore.fetchUsers();
+      if (res && res.headers) {
+        const numberOfPages = Number(res.headers["x-pagination-pages"]);
+        setNumberOfPages(numberOfPages);
+      }
+    })();
   }, [userStore]);
 
   const handlePageChange = useCallback(
@@ -25,7 +33,7 @@ function Users(): JSX.Element | null {
 
   const handleClick = useCallback(
     (id: string) => () => {
-      navigate(`/${ROUTES.USERS}/${id}`);
+      navigate(`${id}/${ROUTES.POSTS}`);
     },
     [navigate]
   );
@@ -38,7 +46,8 @@ function Users(): JSX.Element | null {
           <UserView key={user.id} user={user} onClick={handleClick(user.id)} />
         )}
         onPageChange={handlePageChange}
-        numberOfPages={userStore.pagination.numberOfPages}
+        numberOfPages={numberOfPages}
+        loading={userStore.loading}
       />
     </PageContainer>
   );

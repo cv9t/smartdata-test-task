@@ -14,7 +14,7 @@ function transformObjectKeys(obj: any) {
       newObj = {};
 
       Object.keys(obj).forEach((key) => {
-        if (key === "id") {
+        if (key.includes("id")) {
           newObj[camelCase(key)] = transformObjectKeys(String(obj[key]));
         } else {
           newObj[camelCase(key)] = transformObjectKeys(obj[key]);
