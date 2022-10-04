@@ -18,18 +18,17 @@ export interface IUser {
   status: StatusType;
 }
 
+export interface IPost {
+  id: string;
+  userId: string;
+  title: string;
+  body: string;
+}
 export interface IComment {
   id: string;
   postId: string;
   name: string;
   email: string;
-  body: string;
-}
-
-export interface IPost {
-  id: string;
-  userId: string;
-  title: string;
   body: string;
 }
 

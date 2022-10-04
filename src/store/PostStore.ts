@@ -15,19 +15,30 @@ class PostStore extends FetchMixin {
     this.rootStore = rootStore;
   }
 
-  getPostsByUserId(userId: string) {
-    return this.posts.filter((post) => post.userId === userId);
-  }
-
   @action setPosts(posts: IPost[]) {
     this.posts = posts.map((post) => new PostModel(this, post));
   }
 
   async fetchPostsByUserId(userId: string, page?: number) {
     return this.fetchApi(
-      () => this.transportLayer.getAllByUserId(userId, page),
+      () => this.transportLayer.getByUserId(userId, page),
       (posts) => this.setPosts(posts)
     );
+  }
+
+  async fetchPost(id: string) {
+    return this.fetchApi(
+      () => this.transportLayer.getById(id),
+      (post) => this.setPosts([post])
+    );
+  }
+
+  getPostsByUserId(userId: string) {
+    return this.posts.filter((post) => post.userId === userId);
+  }
+
+  getPostById(id: string | undefined) {
+    return this.posts.find((post) => post.id === id);
   }
 }
 

@@ -30,7 +30,7 @@ function Navigation(): JSX.Element | null {
         width: "100%",
         height: "100%",
         color: "info.contrastText",
-        backgroundColor: "info.main",
+        backgroundColor: "info.dark",
       }}
     >
       {navigationItems.map(({ title, iconType, path }) => (

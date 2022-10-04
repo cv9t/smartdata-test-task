@@ -1,0 +1,34 @@
+import { observable, makeObservable, action } from "mobx";
+import CommentService from "../api/services/CommentService";
+import CommentModel from "../models/CommentModel";
+import { IComment } from "../types";
+import FetchMixin from "./FetchMixin";
+import RootStore from "./RootStore";
+
+class CommentStore extends FetchMixin {
+  rootStore: RootStore;
+  @observable comments: CommentModel[] = [];
+
+  constructor(rootStore: RootStore, private transportLayer: CommentService) {
+    super();
+    makeObservable(this);
+    this.rootStore = rootStore;
+  }
+
+  @action setComments(comments: IComment[]) {
+    this.comments = comments.map((comment) => new CommentModel(this, comment));
+  }
+
+  async fetchCommentsByPostId(postId: string, page?: number) {
+    return this.fetchApi(
+      () => this.transportLayer.getByPostId(postId, page),
+      (comments) => this.setComments(comments)
+    );
+  }
+
+  getCommentsByPostId(postId: string) {
+    return this.comments.filter((comment) => comment.postId === postId);
+  }
+}
+
+export default CommentStore;

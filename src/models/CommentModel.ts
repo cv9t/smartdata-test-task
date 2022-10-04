@@ -1,3 +1,4 @@
+import CommentStore from "../store/CommentStore";
 import { IComment } from "../types";
 
 class CommentModel implements IComment {
@@ -7,7 +8,7 @@ class CommentModel implements IComment {
   email: string;
   body: string;
 
-  constructor(comment: IComment) {
+  constructor(private store: CommentStore, comment: IComment) {
     this.id = comment.id;
     this.name = comment.name;
     this.email = comment.email;

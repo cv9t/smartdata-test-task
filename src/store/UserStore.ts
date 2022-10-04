@@ -15,10 +15,6 @@ class UserStore extends FetchMixin {
     this.rootStore = rootStore;
   }
 
-  getUserById(id: string | undefined) {
-    return this.users.find((user) => user.id === id);
-  }
-
   @action setUsers(users: IUser[]) {
     this.users = users.map((user) => new UserModel(this, user));
   }
@@ -35,6 +31,10 @@ class UserStore extends FetchMixin {
       () => this.transportLayer.getById(id),
       (user) => this.setUsers([user])
     );
+  }
+
+  getUserById(id: string | undefined) {
+    return this.users.find((user) => user.id === id);
   }
 
   @computed get all() {

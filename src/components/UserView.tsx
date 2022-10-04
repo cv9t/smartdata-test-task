@@ -6,17 +6,23 @@ import {
   CardActionArea,
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 import User from "../models/UserModel";
 
 interface UserViewProps {
   user: User;
-  onClick: () => void;
 }
 
-function UserView({ user, onClick }: UserViewProps): JSX.Element | null {
+function UserView({ user }: UserViewProps): JSX.Element | null {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(user.id);
+  };
+
   return (
     <Card>
-      <CardActionArea onClick={onClick}>
+      <CardActionArea onClick={handleClick}>
         <CardContent>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="h5" sx={{ mr: 1 }}>

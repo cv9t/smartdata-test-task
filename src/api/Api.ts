@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import CommentService from "./services/CommentService";
 import PostService from "./services/PostService";
 import UserService from "./services/UserService";
 
@@ -11,10 +12,12 @@ class Api {
 
   userService: UserService;
   postService: PostService;
+  commentService: CommentService;
 
   constructor() {
     this.userService = new UserService(this);
     this.postService = new PostService(this);
+    this.commentService = new CommentService(this);
   }
 }
 

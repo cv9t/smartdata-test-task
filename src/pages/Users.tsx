@@ -4,12 +4,8 @@ import PageContainer from "../components/PageContainer";
 import PaginationList from "../components/PaginationList";
 import UserView from "../components/UserView";
 import useStore from "../hooks/useStore";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../constants";
 
 function Users(): JSX.Element | null {
-  const navigate = useNavigate();
-
   const [numberOfPages, setNumberOfPages] = useState(0);
 
   const { userStore } = useStore();
@@ -31,20 +27,11 @@ function Users(): JSX.Element | null {
     [userStore]
   );
 
-  const handleClick = useCallback(
-    (id: string) => () => {
-      navigate(`${id}/${ROUTES.POSTS}`);
-    },
-    [navigate]
-  );
-
   return (
     <PageContainer title="Users">
       <PaginationList
         items={userStore.users}
-        renderItem={(user) => (
-          <UserView key={user.id} user={user} onClick={handleClick(user.id)} />
-        )}
+        renderItem={(user) => <UserView key={user.id} user={user} />}
         onPageChange={handlePageChange}
         numberOfPages={numberOfPages}
         loading={userStore.loading}

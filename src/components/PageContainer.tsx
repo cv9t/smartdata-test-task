@@ -2,8 +2,8 @@ import { Box, Typography } from "@mui/material";
 import { ChildrenType } from "../types";
 
 interface PageContainerProps {
+  title: string;
   children: ChildrenType;
-  title?: string;
 }
 
 function PageContainer({
@@ -21,11 +21,9 @@ function PageContainer({
         py: 3,
       }}
     >
-      {title && (
-        <Typography variant="h4" sx={{ mb: 3 }}>
-          {title}
-        </Typography>
-      )}
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        {title}
+      </Typography>
       <div>{children}</div>
     </Box>
   );

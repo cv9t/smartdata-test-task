@@ -2,7 +2,8 @@ import { RouteObject } from "react-router-dom";
 import { ROUTES } from "../constants";
 import Layout from "../pages/Layout";
 import Post from "../pages/Post";
-import Posts from "../pages/Posts";
+// import Post from "../pages/Post";
+// import Posts from "../pages/Posts";
 import User from "../pages/User";
 import Users from "../pages/Users";
 
@@ -20,21 +21,15 @@ export const route: RouteObject = {
         {
           path: ROUTES.USER,
           element: <User />,
-          children: [
-            {
-              path: ROUTES.POSTS,
-              children: [
-                {
-                  index: true,
-                  element: <Posts />,
-                },
-                {
-                  path: ROUTES.POST,
-                  element: <Post />,
-                },
-              ],
-            },
-          ],
+        },
+      ],
+    },
+    {
+      path: ROUTES.POSTS,
+      children: [
+        {
+          path: ROUTES.POST,
+          element: <Post />,
         },
       ],
     },
