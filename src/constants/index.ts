@@ -15,3 +15,7 @@ export const navigationItems: NavigationItemType[] = [
     path: ROUTES.USERS,
   },
 ];
+
+export enum X_HEADERS {
+  COUNT_PAGES = "x-pagination-pages",
+}

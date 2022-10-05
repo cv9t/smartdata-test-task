@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, computed } from "mobx";
 import PostService from "../api/services/PostService";
 import PostModel from "../models/PostModel";
 import { IPost } from "../types";
@@ -34,11 +34,13 @@ class PostStore extends FetchMixin {
   }
 
   getPostsByUserId(userId: string) {
-    return this.posts.filter((post) => post.userId === userId);
+    return computed(() =>
+      this.posts.filter((post) => post.userId === userId)
+    ).get();
   }
 
   getPostById(id: string | undefined) {
-    return this.posts.find((post) => post.id === id);
+    return computed(() => this.posts.find((post) => post.id === id)).get();
   }
 }
 

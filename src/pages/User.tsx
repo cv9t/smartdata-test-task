@@ -6,6 +6,8 @@ import Loading from "../components/Loading";
 import PageContainer from "../components/PageContainer";
 import PaginationList from "../components/PaginationList";
 import PostView from "../components/PostView";
+import { X_HEADERS } from "../constants";
+import useFetch from "../hooks/useFetch";
 import useStore from "../hooks/useStore";
 
 function User(): JSX.Element | null {
@@ -15,25 +17,25 @@ function User(): JSX.Element | null {
 
   const { userStore, postStore } = useStore();
 
-  const user = userStore.getUserById(userId);
+  const {
+    fetch: initialFetch,
+    loading: initialLoading,
+    loaded: initialLoaded,
+  } = useFetch(async (userId: string) => {
+    await userStore.fetchUser(userId);
+
+    const res = await postStore.fetchPostsByUserId(userId);
+    if (res && res.headers) {
+      const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
+      setNumberOfPages(numberOfPages);
+    }
+  });
 
   useEffect(() => {
     if (userId) {
-      userStore.fetchUser(userId);
+      initialFetch(userId);
     }
-  }, [userId, userStore]);
-
-  useEffect(() => {
-    if (userId) {
-      (async () => {
-        const res = await postStore.fetchPostsByUserId(userId);
-        if (res && res.headers) {
-          const numberOfPages = Number(res.headers["x-pagination-pages"]);
-          setNumberOfPages(numberOfPages);
-        }
-      })();
-    }
-  }, [postStore, userId]);
+  }, [initialFetch, userId]);
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -44,22 +46,25 @@ function User(): JSX.Element | null {
     [userId, postStore]
   );
 
+  const user = userStore.getUserById(userId);
+
   return (
-    <Loading loading={userStore.loading}>
+    <Loading loading={initialLoading}>
       <PageContainer title="User">
         {user ? (
-          <PaginationList
-            items={user.posts}
-            renderItem={(post) => <PostView key={post.id} post={post} />}
-            emptyList={
-              <Typography variant="h6">
-                Unfortunately, this user has no posts &#128533;
-              </Typography>
-            }
-            onPageChange={handlePageChange}
-            numberOfPages={numberOfPages}
-            loading={postStore.loading}
-          />
+          <Loading loading={postStore.loading} cover={initialLoaded}>
+            <PaginationList
+              items={user.posts}
+              renderItem={(post) => <PostView key={post.id} post={post} />}
+              emptyList={
+                <Typography variant="h6">
+                  Unfortunately, this user has no posts &#128533;
+                </Typography>
+              }
+              onPageChange={handlePageChange}
+              numberOfPages={numberOfPages}
+            />
+          </Loading>
         ) : (
           <Typography variant="h6">User not found &#128533;</Typography>
         )}

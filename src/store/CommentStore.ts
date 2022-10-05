@@ -1,4 +1,4 @@
-import { observable, makeObservable, action } from "mobx";
+import { observable, makeObservable, action, computed } from "mobx";
 import CommentService from "../api/services/CommentService";
 import CommentModel from "../models/CommentModel";
 import { IComment } from "../types";
@@ -27,7 +27,9 @@ class CommentStore extends FetchMixin {
   }
 
   getCommentsByPostId(postId: string) {
-    return this.comments.filter((comment) => comment.postId === postId);
+    return computed(() =>
+      this.comments.filter((comment) => comment.postId === postId)
+    ).get();
   }
 }
 

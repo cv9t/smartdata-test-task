@@ -2,18 +2,15 @@ import { useState, ChangeEvent } from "react";
 import { observer } from "mobx-react-lite";
 import List, { ListProps } from "./List";
 import { Box, Pagination } from "@mui/material";
-import Loading from "./Loading";
 
 interface PaginationListProps<T> extends ListProps<T> {
   onPageChange: (page: number) => void;
   numberOfPages: number;
-  loading?: boolean;
 }
 
 function PaginationList<T>({
   onPageChange,
   numberOfPages,
-  loading,
   ...rest
 }: PaginationListProps<T>): JSX.Element | null {
   const [page, setPage] = useState(1);
@@ -25,9 +22,7 @@ function PaginationList<T>({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Loading loading={Boolean(loading)} cover={Boolean(numberOfPages)}>
-        <List {...rest} />
-      </Loading>
+      <List {...rest} />
       {numberOfPages > 1 && (
         <Pagination
           page={page}

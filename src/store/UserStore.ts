@@ -34,7 +34,7 @@ class UserStore extends FetchMixin {
   }
 
   getUserById(id: string | undefined) {
-    return this.users.find((user) => user.id === id);
+    return computed(() => this.users.find((user) => user.id === id)).get();
   }
 
   @computed get all() {
