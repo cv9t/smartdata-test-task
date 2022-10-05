@@ -17,19 +17,17 @@ function User(): JSX.Element | null {
 
   const { userStore, postStore } = useStore();
 
-  const {
-    fetch: initialFetch,
-    loading: initialLoading,
-    loaded: initialLoaded,
-  } = useFetch(async (userId: string) => {
-    await userStore.fetchUser(userId);
+  const { fetch: initialFetch, loading: initialLoading } = useFetch(
+    async (userId: string) => {
+      await userStore.fetchUser(userId);
 
-    const res = await postStore.fetchPostsByUserId(userId);
-    if (res && res.headers) {
-      const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
-      setNumberOfPages(numberOfPages);
+      const res = await postStore.fetchPostsByUserId(userId);
+      if (res && res.headers) {
+        const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
+        setNumberOfPages(numberOfPages);
+      }
     }
-  });
+  );
 
   useEffect(() => {
     if (userId) {
@@ -52,7 +50,7 @@ function User(): JSX.Element | null {
     <Loading loading={initialLoading}>
       <PageContainer title="User">
         {user ? (
-          <Loading loading={postStore.loading} cover={initialLoaded}>
+          <Loading loading={postStore.loading} cover>
             <PaginationList
               items={user.posts}
               renderItem={(post) => <PostView key={post.id} post={post} />}

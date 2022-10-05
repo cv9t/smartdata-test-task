@@ -6,13 +6,11 @@ import FetchMixin from "./FetchMixin";
 import RootStore from "./RootStore";
 
 class PostStore extends FetchMixin {
-  rootStore: RootStore;
   @observable posts: PostModel[] = [];
 
   constructor(rootStore: RootStore, private transportLayer: PostService) {
-    super();
+    super(rootStore);
     makeObservable(this);
-    this.rootStore = rootStore;
   }
 
   @action setPosts(posts: IPost[]) {

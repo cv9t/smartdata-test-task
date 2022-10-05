@@ -6,13 +6,11 @@ import FetchMixin from "./FetchMixin";
 import RootStore from "./RootStore";
 
 class CommentStore extends FetchMixin {
-  rootStore: RootStore;
   @observable comments: CommentModel[] = [];
 
   constructor(rootStore: RootStore, private transportLayer: CommentService) {
-    super();
+    super(rootStore);
     makeObservable(this);
-    this.rootStore = rootStore;
   }
 
   @action setComments(comments: IComment[]) {

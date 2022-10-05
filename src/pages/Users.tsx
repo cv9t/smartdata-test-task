@@ -7,6 +7,7 @@ import useStore from "../hooks/useStore";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import { X_HEADERS } from "../constants";
+import { Typography } from "@mui/material";
 
 function Users(): JSX.Element | null {
   const [numberOfPages, setNumberOfPages] = useState(0);
@@ -41,6 +42,11 @@ function Users(): JSX.Element | null {
           <PaginationList
             items={userStore.users}
             renderItem={(user) => <UserView key={user.id} user={user} />}
+            emptyList={
+              <Typography variant="h6">
+                Unfortunately, there are no users &#128533;
+              </Typography>
+            }
             onPageChange={handlePageChange}
             numberOfPages={numberOfPages}
           />

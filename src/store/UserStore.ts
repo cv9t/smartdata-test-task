@@ -6,13 +6,11 @@ import FetchMixin from "./FetchMixin";
 import RootStore from "./RootStore";
 
 class UserStore extends FetchMixin {
-  rootStore: RootStore;
   @observable users: UserModel[] = [];
 
   constructor(rootStore: RootStore, private transportLayer: UserService) {
-    super();
+    super(rootStore);
     makeObservable(this);
-    this.rootStore = rootStore;
   }
 
   @action setUsers(users: IUser[]) {

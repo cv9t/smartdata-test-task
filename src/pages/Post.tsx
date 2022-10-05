@@ -14,7 +14,7 @@ function Post(): JSX.Element | null {
   const { postId } = useParams<"postId">();
 
   const [numberOfPages, setNumberOfPages] = useState(0);
-  const [showComments, setShowComments] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
 
   const { postStore, commentStore } = useStore();
 
@@ -24,18 +24,6 @@ function Post(): JSX.Element | null {
     }
   );
 
-  const {
-    fetch: initialCommentsFetch,
-    loading: initialCommentsLoading,
-    loaded: initialCommentsLoaded,
-  } = useFetch(async (postId: string) => {
-    const res = await commentStore.fetchCommentsByPostId(postId);
-    if (res && res.headers) {
-      const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
-      setNumberOfPages(numberOfPages);
-    }
-  });
-
   useEffect(() => {
     if (postId) {
       initialFetch(postId);
@@ -43,10 +31,18 @@ function Post(): JSX.Element | null {
   }, [postId, initialFetch]);
 
   useEffect(() => {
-    if (postId && showComments) {
-      initialCommentsFetch(postId);
+    const fetchCommentsByPostId = async (postId: string) => {
+      const res = await commentStore.fetchCommentsByPostId(postId);
+      if (res && res.headers) {
+        const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
+        setNumberOfPages(numberOfPages);
+      }
+    };
+
+    if (postId && openComments) {
+      fetchCommentsByPostId(postId);
     }
-  }, [initialCommentsFetch, postId, showComments]);
+  }, [commentStore, postId, openComments]);
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -57,8 +53,8 @@ function Post(): JSX.Element | null {
     [commentStore, postId]
   );
 
-  const handleShowCommentsToggle = () => {
-    setShowComments((prev) => !prev);
+  const handleOpenCommentsToggle = () => {
+    setOpenComments((prev) => !prev);
   };
 
   const post = postStore.getPostById(postId);
@@ -74,36 +70,31 @@ function Post(): JSX.Element | null {
             <Typography variant="body2" sx={{ mb: 3 }}>
               {post.body}
             </Typography>
-            <Box sx={{ mb: showComments ? 3 : 0 }}>
+            <Box sx={{ mb: openComments ? 3 : 0 }}>
               <Button
                 variant="contained"
-                color={showComments ? "error" : "info"}
-                onClick={handleShowCommentsToggle}
+                color={openComments ? "error" : "info"}
+                onClick={handleOpenCommentsToggle}
               >
-                {showComments ? "Hide comments" : "Show comments"}
+                {openComments ? "Hide comments" : "Show comments"}
               </Button>
             </Box>
-            {showComments && (
+            {openComments && (
               <Box sx={{ position: "relative" }}>
-                <Loading loading={initialCommentsLoading}>
-                  <Loading
-                    loading={commentStore.loading}
-                    cover={initialCommentsLoaded}
-                  >
-                    <PaginationList
-                      items={post.comments}
-                      renderItem={(comment) => (
-                        <CommentView key={comment.id} comment={comment} />
-                      )}
-                      emptyList={
-                        <Typography variant="body2">
-                          Unfortunately, this post has no comments &#128533;
-                        </Typography>
-                      }
-                      onPageChange={handlePageChange}
-                      numberOfPages={numberOfPages}
-                    />
-                  </Loading>
+                <Loading loading={commentStore.loading} cover>
+                  <PaginationList
+                    items={post.comments}
+                    renderItem={(comment) => (
+                      <CommentView key={comment.id} comment={comment} />
+                    )}
+                    emptyList={
+                      <Typography variant="body2">
+                        Unfortunately, this post has no comments &#128533;
+                      </Typography>
+                    }
+                    onPageChange={handlePageChange}
+                    numberOfPages={numberOfPages}
+                  />
                 </Loading>
               </Box>
             )}

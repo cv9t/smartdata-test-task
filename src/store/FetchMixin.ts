@@ -1,12 +1,13 @@
 import { AxiosResponse } from "axios";
 import { observable, action, makeObservable } from "mobx";
 import transformObjectKeys from "../helpers/transformObjectKeys";
+import RootStore from "./RootStore";
 
 class FetchMixin {
   @observable loading = false;
   @observable error = false;
 
-  constructor() {
+  constructor(public rootStore: RootStore) {
     makeObservable(this);
   }
 
@@ -18,7 +19,7 @@ class FetchMixin {
     this.error = value;
   }
 
-  async fetchApi<T>(
+  protected async fetchApi<T>(
     method: () => Promise<AxiosResponse<T>>,
     thenCallback?: (data: T) => void,
     catchCallback?: () => void
@@ -34,11 +35,11 @@ class FetchMixin {
       }
 
       const transformedData: T = transformObjectKeys(res.data);
-      console.log(transformedData);
       thenCallback?.(transformedData);
       return res;
-    } catch {
+    } catch (err: any) {
       catchCallback?.();
+      this.rootStore.setErrorMessage(err.message);
       this.setError(true);
       return null;
     } finally {
