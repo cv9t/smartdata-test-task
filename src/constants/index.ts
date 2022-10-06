@@ -17,5 +17,5 @@ export const navigationItems: NavigationItemType[] = [
 ];
 
 export enum X_HEADERS {
-  COUNT_PAGES = "x-pagination-pages",
+  PAGINATION_PAGES = "x-pagination-pages",
 }

@@ -8,7 +8,11 @@ function useFetch<R extends any[]>(callback: (...args: R) => Promise<any>) {
     try {
       setError(false);
       setLoading(true);
-      await callback(...args);
+      const res = await callback(...args);
+      if (res.status !== 200) {
+        setError(true);
+        return;
+      }
     } catch {
       setError(true);
     } finally {

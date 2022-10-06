@@ -1,9 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import { ROUTES } from "../constants";
-import Layout from "../pages/Layout";
+import Layout from "../components/Layout";
 import Post from "../pages/Post";
-// import Post from "../pages/Post";
-// import Posts from "../pages/Posts";
 import User from "../pages/User";
 import Users from "../pages/Users";
 

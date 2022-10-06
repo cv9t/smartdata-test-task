@@ -34,7 +34,7 @@ function Post(): JSX.Element | null {
     const fetchCommentsByPostId = async (postId: string) => {
       const res = await commentStore.fetchCommentsByPostId(postId);
       if (res && res.headers) {
-        const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
+        const numberOfPages = Number(res.headers[X_HEADERS.PAGINATION_PAGES]);
         setNumberOfPages(numberOfPages);
       }
     };
@@ -81,7 +81,10 @@ function Post(): JSX.Element | null {
             </Box>
             {openComments && (
               <Box sx={{ position: "relative" }}>
-                <Loading loading={commentStore.loading} cover>
+                <Loading
+                  loading={commentStore.loading}
+                  cover={Boolean(post.comments.length)}
+                >
                   <PaginationList
                     items={post.comments}
                     renderItem={(comment) => (

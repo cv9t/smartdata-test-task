@@ -23,7 +23,7 @@ function User(): JSX.Element | null {
 
       const res = await postStore.fetchPostsByUserId(userId);
       if (res && res.headers) {
-        const numberOfPages = Number(res.headers[X_HEADERS.COUNT_PAGES]);
+        const numberOfPages = Number(res.headers[X_HEADERS.PAGINATION_PAGES]);
         setNumberOfPages(numberOfPages);
       }
     }

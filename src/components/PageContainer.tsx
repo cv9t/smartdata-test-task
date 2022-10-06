@@ -19,6 +19,7 @@ function PageContainer({
         width: "100%",
         mx: "auto",
         py: 3,
+        px: 2,
       }}
     >
       <Typography variant="h4" sx={{ mb: 3 }}>
