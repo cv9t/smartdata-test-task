@@ -5,7 +5,7 @@ import Post from "../pages/Post";
 import User from "../pages/User";
 import Users from "../pages/Users";
 
-export const route: RouteObject = {
+const route: RouteObject = {
   path: ROUTES.ROOT,
   element: <Layout />,
   children: [

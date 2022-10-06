@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import useStore from "../hooks/useStore";
+import { navigationWidth } from "../constants";
 
 function Layout(): JSX.Element | null {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -24,7 +25,7 @@ function Layout(): JSX.Element | null {
   return (
     <div>
       <Navigation />
-      <Box sx={{ display: "flex", ml: "200px" }}>
+      <Box sx={{ display: "flex", ml: `${navigationWidth}px` }}>
         <Outlet />
       </Box>
       <Snackbar

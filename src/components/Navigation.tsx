@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { navigationItems } from "../constants";
+import { navigationItems, navigationWidth } from "../constants";
 import Icon from "./Icon";
 
 function Navigation(): JSX.Element | null {
@@ -26,7 +26,7 @@ function Navigation(): JSX.Element | null {
       }
       sx={{
         position: "fixed",
-        maxWidth: 200,
+        maxWidth: navigationWidth,
         width: "100%",
         height: "100%",
         color: "info.contrastText",

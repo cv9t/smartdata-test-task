@@ -19,3 +19,5 @@ export const navigationItems: NavigationItemType[] = [
 export enum X_HEADERS {
   PAGINATION_PAGES = "x-pagination-pages",
 }
+
+export const navigationWidth = 200;
